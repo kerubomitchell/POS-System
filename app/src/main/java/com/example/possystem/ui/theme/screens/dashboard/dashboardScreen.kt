@@ -91,7 +91,7 @@ fun Dashboard(){
                         color = Color.White)
                 }
                 Spacer(modifier = Modifier.height(30.dp))
-                    Text(text = )
+                    Text(text = "Remains" )
 
             }
             Spacer(modifier = Modifier.height(25.dp))
