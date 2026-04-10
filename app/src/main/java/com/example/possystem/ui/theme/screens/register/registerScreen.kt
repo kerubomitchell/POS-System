@@ -51,8 +51,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.possystem.R
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Button
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.possystem.data.AuthViewModel
 import com.example.possystem.navigation.ROUTE_LOGIN
 
 @Composable
@@ -63,6 +67,10 @@ fun RegisterScreen(navController: NavController) {
     var confirm by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmVisible by remember { mutableStateOf(false) }
+    var phone by remember { mutableStateOf("") }
+    val authViewModel: AuthViewModel= viewModel()
+    val context = LocalContext.current
+
 
     val gradientBrush = Brush.linearGradient(
         colors = listOf(Color(0xFF6C63FF), Color(0xFFB06AFF))
@@ -194,6 +202,16 @@ fun RegisterScreen(navController: NavController) {
                 onTogglePassword = { confirmVisible = !confirmVisible }
             )
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            StyledTextField(
+                value = phone,
+                onValueChange = { phone = it },
+                label = "Phone Number",
+                icon = Icons.Default.Phone,
+                keyboardType = KeyboardType.Phone
+            )
+
             Spacer(modifier = Modifier.height(32.dp))
 
             Box(
@@ -204,14 +222,22 @@ fun RegisterScreen(navController: NavController) {
                     .clickable { /* Handle register */ },
                 contentAlignment = Alignment.Center
             ) {
-                Text(
+                Button(onClick = {authViewModel.signup(username=username,
+                    email=email,
+                    password=password,
+                    confirmpassword=confirm,
+                    phone=phone,
+                    navController = navController,
+                    context = context)}) {Text(
                     text = "Register Account",
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.sp
-                )
+                ) }
+
             }
+
 
             Spacer(modifier = Modifier.height(24.dp))
 

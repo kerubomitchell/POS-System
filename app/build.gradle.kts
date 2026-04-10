@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -49,6 +50,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation("androidx.compose.material:material-icons-extended")
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.ui)
+    implementation(libs.firebase.auth)
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     implementation("androidx.navigation:navigation-compose:2.8.4")
     androidTestImplementation(libs.androidx.junit)
@@ -57,5 +64,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
 
 }
