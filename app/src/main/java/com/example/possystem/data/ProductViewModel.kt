@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.possystem.models.ProductModel
 import com.example.possystem.navigation.ROUTE_DASHBOARD
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,7 @@ import okhttp3.RequestBody
 import java.io.InputStream
 
 class ProductViewModel:ViewModel() {
+
     val cloudinaryUrl = "https://api.cloudinary.com/v1_1/dcvskvfss/image/upload"
     val uploadPreset = "Images_folder"
 
@@ -76,9 +78,21 @@ class ProductViewModel:ViewModel() {
     }
 
 
-
-
-
-
+    private val _products = mutableStateListOf<ProductModel>()
+    val products: List<ProductModel> = _products
+    fun fetchProduct(context: Context){
+        val ref = FirebaseDatabase.getInstance().getReference("Products")
+        ref.get().addOnSuccessListener { snapshot ->
+            _products.clear()
+            for(child in snapshot.children){
+                var product = child.getValue(ProductModel::class.java)
+                product?.let {
+                    it.id = child.key
+                    _products.add(it) }
+            }
+        }.addOnFailureListener {
+            Toast.makeText(context,"Failed to load products",Toast.LENGTH_LONG)
+        }
+    }
 
 }

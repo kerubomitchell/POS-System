@@ -19,6 +19,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.possystem.data.AuthViewModel
+import com.example.possystem.navigation.ROUTE_PRODUCT_LIST
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
@@ -50,8 +51,7 @@ fun DashboardScreen(navController: NavController) {
                 actions = {
                     IconButton(onClick = {
                         authViewModel.logout(navController, context)
-                        // Optional: close app completely
-                        // activity?.finishAffinity()
+
                     }) {
                         Icon(
                             imageVector = Icons.Default.ExitToApp,
@@ -106,8 +106,9 @@ fun DashboardScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Revenue Card
+
             Card(
+                onClick = {navController.navigate(ROUTE_PRODUCT_LIST)},
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.Black),
@@ -126,7 +127,7 @@ fun DashboardScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Product Cards
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -138,7 +139,7 @@ fun DashboardScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Charts
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
