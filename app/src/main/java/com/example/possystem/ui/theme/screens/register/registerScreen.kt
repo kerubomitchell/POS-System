@@ -324,4 +324,3 @@ fun StyledTextField(
 fun RegisterScreenPreview() {
     RegisterScreen(rememberNavController())
 }
-

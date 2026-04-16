@@ -9,12 +9,13 @@ import com.example.possystem.ui.theme.screens.dashboard.DashboardScreen
 import com.example.possystem.navigation.ROUTE_LOGIN
 import com.example.possystem.navigation.ROUTE_REGISTER
 import com.example.possystem.navigation.ROUTE_DASHBOARD
+import com.example.possystem.ui.theme.screens.product.AddProductScreen
 
 
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = ROUTE_LOGIN
+    startDestination: String = ROUTE_ADD_PRODUCT
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
 
@@ -28,6 +29,9 @@ fun AppNavHost(
 
         composable(ROUTE_DASHBOARD) {
             DashboardScreen(navController)
+        }
+        composable(ROUTE_ADD_PRODUCT) {
+            AddProductScreen(navController)
         }
     }
 }
