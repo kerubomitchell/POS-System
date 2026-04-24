@@ -59,6 +59,60 @@ class ProductViewModel:ViewModel() {
             }
         }
     }
+    fun updateProduct(productid: String,
+                      imageUri: Uri?,
+                      product_name: String,
+                      price: String,
+                      quantity: String,
+                      description: String,
+                      manufacturedate: String,
+                      barcodeNumber: String,
+                      context: Context,
+                      navController: NavController){
+        viewModelScope.launch  (Dispatchers.IO){
+            try {
+                var imageUrl = imageUri?.let { uploadToCloudinary(context,it) }
+                var updateProduct = mapOf(
+                    "id" to productid,
+                    "product_name" to product_name,
+                    "price" to price,
+                    "quantity" to quantity,
+                    "description" to description,
+                    "imageUrl" to imageUrl,
+                    "manufacturedate" to manufacturedate,
+                    "barcodenumber" to barcodeNumber
+                )
+                val ref = FirebaseDatabase.getInstance().getReference("Products").child(productid)
+                ref.setValue(updateProduct).await()
+                fetchProduct(context)
+                withContext(Dispatchers.Main){
+                    Toast.makeText(context,"Product updated successfully",
+                        Toast.LENGTH_LONG).show()
+                    navController.navigate(ROUTE_DASHBOARD)
+                }
+
+            }catch (e:Exception){
+                withContext(Dispatchers.Main){
+                    Toast.makeText(context,"Update failed",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+    }
+    fun deleteProduct(productid: String, context: Context) {
+        val ref = FirebaseDatabase.getInstance()
+            .getReference("Products")
+            .child(productid)
+
+        ref.removeValue()
+            .addOnSuccessListener {
+                _products.removeAll { it.id == productid }
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Product not deleted", Toast.LENGTH_LONG).show()
+            }
+    }
 
     private fun uploadToCloudinary(context:Context,uri: Uri):String{
         val contentResolver = context.contentResolver
